@@ -14,8 +14,17 @@ def home():
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
-        # Placeholder for future inference service integration
-        # from src.inference import InferenceService
+        # Lazy import for inference service to avoid loading heavy ML libs on startup
+        # This prevents Vercel cold start timeouts or memory issues if libs are present
+        # but large. Note: On Vercel, heavy ML libs (xgboost, catboost) might not be installed.
+        try:
+            from src.inference import InferenceService
+        except ImportError as e:
+             return jsonify({
+                "status": "error", 
+                "message": f"ML libraries not available in this environment: {str(e)}"
+            }), 503
+
         # data = request.json
         # result = InferenceService.predict(data)
         return jsonify({"status": "success", "message": "Prediction endpoint ready for integration"}), 200

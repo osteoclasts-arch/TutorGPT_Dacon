@@ -29,9 +29,17 @@ TutorGPT_Dacon/
 ### 1. Installation
 Ensure you have Python 3.8+ installed.
 
+**For Vercel / Production (Inference Only):**
 ```bash
 pip install -r requirements.txt
 ```
+
+**For Local Training (Includes ML Libraries):**
+```bash
+pip install -r requirements.txt
+pip install -r requirements-ml.txt
+```
+*Note: We split dependencies because heavy ML libraries (XGBoost, CatBoost, LightGBM) exceed Vercel's 500MB slug size limit. Please train locally.*
 
 ### 2. Run the Full Pipeline
 To generate data, train models, and create a submission in one go:
